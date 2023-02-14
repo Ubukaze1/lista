@@ -6,14 +6,17 @@
     </header>
     <div class="hr"></div>
     <section class="nodos">
-      <div class="nodo" v-for="(elm, index) of arr" :key="index">
-        <p>{{ elm.info }}</p>
+      <div class="fle" v-for="(elm, index) of arr" :key="index">
+        <div class="nodo">
+          <p>{{ elm.info }}</p>
+        </div>
+        <img src="../assets/flecha-correcta (1).png" alt="Flecha">
       </div>
     </section>
     <section class="foot">
       <div>
         <button class="bt-add" @click="handleClick()">Añadir</button>
-        <input type="text" placeholder="Dato" v-model="dato" autofocus >
+        <input type="text" placeholder="Dato" v-model="dato" autofocus>
       </div>
     </section>
   </div>
@@ -26,6 +29,10 @@ import { nodo } from '../types/nodo'
 let dato: Ref<string> = ref(" ");
 
 let arr: Ref<Array<nodo>> = ref([])
+
+arr.value.push({
+  info: "1"
+})
 
 
 const handleClick = () => {
@@ -76,18 +83,32 @@ header {
 
 .nodo {
   display: flex;
-  width: 65px;
-  height: 65px;
+  width: 85px;
+  height: 85px;
   background-color: #8a3186;
   border-radius: 50%;
   justify-content: center;
   margin-left: 5px;
 
   p {
-    color: #1d0718;
-    font-size: 20px;
+    margin-top: 13px;
+    margin-right: 3px;
+    color: white;
+    font-size: 40px;
     text-align: center;
-    font-weight: bold;
+    font-weight: 600;
+  }
+}
+
+.fle {
+
+  display: flex;
+  flex-direction: row;
+  img {
+    margin-left: 15px;
+    margin-right: 15px;
+    width: 80px;
+    height: 80px;
   }
 }
 
@@ -97,6 +118,7 @@ header {
   margin-top: 100px;
   width: 75vw;
   height: 50vh;
+
 }
 
 .foot {
@@ -120,17 +142,16 @@ header {
       margin-bottom: 20px;
       cursor: pointer;
       transition: 1s;
-      &:hover{
+
+      &:hover {
         scale: 1.1;
       }
     }
+
     input {
       font-size: 18px;
       font-style: italic;
     }
   }
 }
-
-
-
 </style>
