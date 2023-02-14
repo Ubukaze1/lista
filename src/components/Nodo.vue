@@ -1,40 +1,41 @@
 <template>
   <div class="container">
     <header>
-      <h1>Lista enlazada</h1>
-      <button>Cambio</button>
+      <h1>Lista Enlazada</h1>
+      <!-- <button>Cambio</button> -->
     </header>
     <div class="hr"></div>
     <section class="nodos">
-      <div class="nodo" v-for="elm in arr" :key="elm.id">
-        <p>{{ elm.title }}</p>
+      <div class="nodo" v-for="(elm, index) of arr" :key="index">
+        <p>{{ elm.info }}</p>
+      </div>
+    </section>
+    <section class="foot">
+      <div>
+        <button class="bt-add" @click="handleClick()">Añadir</button>
+        <input type="text" placeholder="Dato" v-model="dato" autofocus >
       </div>
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import {ref, Ref} from 'vue'
-import {nodo} from '../types/nodo'
+import { ref, Ref } from 'vue'
+import { nodo } from '../types/nodo'
 
-let arr: Ref<Array<nodo>> = ref([
-  {
-    id: 1,
-    title: "1"
-  },
-  {
-    id: 2,
-    title: "2"
-  },
-  {
-    id: 3,
-    title: "3"
-  },
-  {
-    id: 4,
-    title: "4"
-  },
-])
+let dato: Ref<string> = ref(" ");
+
+let arr: Ref<Array<nodo>> = ref([])
+
+
+const handleClick = () => {
+  arr.value.push({
+    info: dato.value
+  })
+  dato.value = " "
+
+}
+
 
 
 
@@ -46,25 +47,30 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 95%;
+
   h1 {
-    font-size: 50px;
-    background: linear-gradient(#8a3186, #290c22);
-    margin: 0;
-    margin-left: 41vw;
+    font-size: 40px;
+    font-weight: 500;
+    /* background: linear-gradient(#8a3186, #290c22);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color: transparent; */
+    color: white;
+    margin: 0;
+    margin-left: 42vw;
   }
+
   button {
     border: none;
     border-radius: 15px;
     font-size: 16px;
-    background-color: lightskyblue;
     cursor: pointer;
   }
 }
+
 .hr {
-  width: 100%;
-  margin: 20px 0px;
+  width: 95%;
+  margin: 20px auto;
   border: 1px solid #003366;
 }
 
@@ -76,6 +82,7 @@ header {
   border-radius: 50%;
   justify-content: center;
   margin-left: 5px;
+
   p {
     color: #1d0718;
     font-size: 20px;
@@ -86,8 +93,44 @@ header {
 
 .nodos {
   display: flex;
-  margin: 100px auto;
+  margin: 0 auto;
+  margin-top: 100px;
   width: 75vw;
-  height: 75vh;
+  height: 50vh;
 }
+
+.foot {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  div {
+    display: flex;
+    flex-direction: column;
+
+    button {
+      scale: 1;
+      padding: 10px 125px;
+      border: none;
+      background: linear-gradient(#8a3186, #290c22);
+      font-size: 24px;
+      font-weight: bold;
+      font-style: italic;
+      color: white;
+      margin-bottom: 20px;
+      cursor: pointer;
+      transition: 1s;
+      &:hover{
+        scale: 1.1;
+      }
+    }
+    input {
+      font-size: 18px;
+      font-style: italic;
+    }
+  }
+}
+
+
+
 </style>

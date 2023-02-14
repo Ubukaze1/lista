@@ -1,4 +1,3 @@
 export interface nodo {
-  id: number 
-  title: string
+  info: string 
 }
