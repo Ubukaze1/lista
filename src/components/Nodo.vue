@@ -7,10 +7,10 @@
     <div class="hr"></div>
     <section class="nodos">
       <div class="fle" v-for="(elm, index) of arr" :key="index">
-        <div class="nodo">
+        <div class="nodo" :style="v ? ' animation: grow 2s ease-in-out;' : ' '">
           <p>{{ elm.info }}</p>
         </div>
-        <img src="../assets/flecha-correcta (1).png" alt="Flecha">
+        <img src="../assets/flecha-correcta (1).png" alt="Flecha" :style="vv ? ' animation: rotate 2s ease-in-out;' : ' '">
       </div>
     </section>
     <section class="foot">
@@ -25,6 +25,8 @@
 <script setup lang="ts">
 import { ref, Ref } from 'vue'
 import { nodo } from '../types/nodo'
+let v: Ref<boolean> = ref(false)
+let vv: Ref<boolean> = ref(false)
 
 let dato: Ref<string> = ref(" ");
 
@@ -40,7 +42,11 @@ const handleClick = () => {
     info: dato.value
   })
   dato.value = " "
-
+  v.value = true
+  setTimeout(() => {
+    vv.value = true
+  }, 3000);
+  
 }
 
 
@@ -82,6 +88,7 @@ header {
 }
 
 .nodo {
+  scale: 1;
   display: flex;
   width: 85px;
   height: 85px;
@@ -89,7 +96,6 @@ header {
   border-radius: 50%;
   justify-content: center;
   margin-left: 5px;
-
   p {
     margin-top: 13px;
     margin-right: 3px;
@@ -97,6 +103,21 @@ header {
     font-size: 40px;
     text-align: center;
     font-weight: 600;
+  }
+  /* animation: grow 2s ease-in-out; */
+}
+
+@keyframes grow {
+  0%{
+    scale: 1;
+  }
+
+  50%{
+    scale: 1.2;
+  }
+
+  100% {
+    scale: 1;
   }
 }
 
@@ -109,7 +130,30 @@ header {
     margin-right: 15px;
     width: 80px;
     height: 80px;
+    /* animation: rotate 2s ease-in-out; */
   }
+}
+
+@keyframes rotate {
+  
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(10deg);
+  }
+
+  75% {
+    transform: rotate(-10deg);
+  }
+
+
+  100% {
+    transform: rotate(0deg);
+  }
+  
+
 }
 
 .nodos {
