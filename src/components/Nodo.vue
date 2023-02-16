@@ -16,13 +16,12 @@
         <img src="../assets/flecha-correcta (1).png" alt="Flecha"
           :style="elm.ar ? elm.ultF ? 'animation: salida 2s ease-in-out ' : 'animation: rotate 2s ease-in-out;' : ' '"
           :class="elm.ultF ? 'priF' : ' '">
-
       </div>
     </section>
     <section class="foot">
       <div>
         <button class="bt-add" @click="handleClick()">Añadir</button>
-        <input type="text" placeholder="Dato" v-model="dato" autofocus>
+        <input type="number" placeholder="Dato" v-model="dato" autofocus pattern="[0-9]*">
       </div>
     </section>
 </div>
@@ -31,11 +30,9 @@
 <script setup lang="ts">
 import { ref, Ref } from 'vue'
 import { nodo } from '../types/nodo'
-let v: Ref<boolean> = ref(false)
-let vv: Ref<boolean> = ref(false)
+import {nodoAnimatio, flechaAnimation, flechaAnimationUlt, nodoAnimationUlt} from '../func/animations'
 
-let dato: Ref<string> = ref(" ");
-
+let dato: Ref<string> = ref("");
 let arr: Ref<Array<nodo>> = ref([])
 
 arr.value.push({
@@ -46,14 +43,12 @@ arr.value.push({
   ultF: false
 })
 
-
-
 const handleClick = async () => {
 
 
   for (let i = 0; i < arr.value.length; i++) {
-    await nodoAnimation(i)
-    await flechaAnimation(i)
+    await nodoAnimatio(i,arr)
+    await flechaAnimation(i, arr)
   }
 
   arr.value.push({
@@ -65,54 +60,8 @@ const handleClick = async () => {
   })
   dato.value = " "
 
-  await nodoAnimationUlt(arr.value.length - 1)
-  await flechaAnimationUlt(arr.value.length - 1)
-
-
-
-}
-
-const flechaAnimationUlt = (index: number): Promise<boolean> => {
-  return new Promise((r, rej) => {
-    arr.value[index].ar = true
-    setTimeout(() => {
-      arr.value[index].ar = false
-      arr.value[index].ultF = false
-      r(false)
-    }, 1900);
-  })
-}
-
-
-const nodoAnimationUlt = (index: number): Promise<boolean> => {
-  return new Promise((r, rej) => {
-    arr.value[index].no = true
-    setTimeout(() => {
-      arr.value[index].no = false
-      arr.value[index].ultN = false
-      r(true)
-    }, 1900);
-  })
-}
-
-const nodoAnimation = (index: number): Promise<boolean> => {
-  return new Promise((r, rej) => {
-    arr.value[index].no = true
-    setTimeout(() => {
-      arr.value[index].no = false
-      r(true)
-    }, 2000);
-  })
-}
-
-const flechaAnimation = (index: number): Promise<boolean> => {
-  return new Promise((r, rej) => {
-    arr.value[index].ar = true
-    setTimeout(() => {
-      arr.value[index].ar = false
-      r(false)
-    }, 2000);
-  })
+  await nodoAnimationUlt(arr.value.length - 1, arr)
+  await flechaAnimationUlt(arr.value.length - 1, arr)
 }
 </script>
 
