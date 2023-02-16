@@ -7,10 +7,11 @@
     <div class="hr"></div>
     <section class="nodos">
       <div class="fle" v-for="(elm, index) of arr" :key="index">
-        <div class="nodo" :style="v ? ' animation: grow 2s ease-in-out;' : ' '">
+        <div class="nodo" :style="elm.no ? ' animation: grow 2s ease-in-out;' : ' '">
           <p>{{ elm.info }}</p>
         </div>
-        <img src="../assets/flecha-correcta (1).png" alt="Flecha" :style="vv ? ' animation: rotate 2s ease-in-out;' : ' '">
+        <img src="../assets/flecha-correcta (1).png" alt="Flecha"
+          :style="elm.ar ? ' animation: rotate 2s ease-in-out;' : ' '">
       </div>
     </section>
     <section class="foot">
@@ -19,7 +20,7 @@
         <input type="text" placeholder="Dato" v-model="dato" autofocus>
       </div>
     </section>
-  </div>
+</div>
 </template>
 
 <script setup lang="ts">
@@ -33,26 +34,51 @@ let dato: Ref<string> = ref(" ");
 let arr: Ref<Array<nodo>> = ref([])
 
 arr.value.push({
-  info: "1"
+  info: "1",
+  no: false,
+  ar: false
 })
 
 
-const handleClick = () => {
+const handleClick = async () => {
+
+
+  for (let i = 0; i < arr.value.length; i++) {
+    await nodoAnimation(i)
+    await flechaAnimation(i)
+  }
+
   arr.value.push({
-    info: dato.value
+    info: dato.value,
+    no: false,
+    ar: false
   })
   dato.value = " "
-  v.value = true
-  setTimeout(() => {
-    vv.value = true
-  }, 3000);
-  
+
+
+
+
 }
 
+const nodoAnimation = (index: number): Promise<boolean> => {
+  return new Promise((r, rej) => {
+    arr.value[index].no = true
+    setTimeout(() => {
+      arr.value[index].no = false
+      r(true)
+    }, 2000);
+  })
+}
 
-
-
-
+const flechaAnimation = (index: number): Promise<boolean> => {
+  return new Promise((r, rej) => {
+    arr.value[index].ar = true
+    setTimeout(() => {
+      arr.value[index].ar = false
+      r(false)
+    }, 2000);
+  })
+}
 </script>
 
 <style lang="scss">
@@ -96,6 +122,7 @@ header {
   border-radius: 50%;
   justify-content: center;
   margin-left: 5px;
+
   p {
     margin-top: 13px;
     margin-right: 3px;
@@ -104,15 +131,16 @@ header {
     text-align: center;
     font-weight: 600;
   }
+
   /* animation: grow 2s ease-in-out; */
 }
 
 @keyframes grow {
-  0%{
+  0% {
     scale: 1;
   }
 
-  50%{
+  50% {
     scale: 1.2;
   }
 
@@ -125,6 +153,7 @@ header {
 
   display: flex;
   flex-direction: row;
+
   img {
     margin-left: 15px;
     margin-right: 15px;
@@ -135,7 +164,7 @@ header {
 }
 
 @keyframes rotate {
-  
+
   0% {
     transform: rotate(0deg);
   }
@@ -152,7 +181,7 @@ header {
   100% {
     transform: rotate(0deg);
   }
-  
+
 
 }
 
