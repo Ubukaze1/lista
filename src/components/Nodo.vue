@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <!-- :style="elm.no ? ' animation: grow 2s ease-in-out;' : ' '" -->
     <header>
       <h1>Lista Enlazada</h1>
       <!-- <button>Cambio</button> -->
@@ -7,11 +8,15 @@
     <div class="hr"></div>
     <section class="nodos">
       <div class="fle" v-for="(elm, index) of arr" :key="index">
-        <div class="nodo" :style="elm.no ? ' animation: grow 2s ease-in-out;' : ' '">
+        <div class="nodo"
+          :style="elm.no ? elm.ultN ? 'animation: prii 2s ease-in-out;' : 'animation: grow 2s ease-in-out' : ' '"
+          :class="elm.ultN ? 'priN' : ' '">
           <p>{{ elm.info }}</p>
         </div>
         <img src="../assets/flecha-correcta (1).png" alt="Flecha"
-          :style="elm.ar ? ' animation: rotate 2s ease-in-out;' : ' '">
+          :style="elm.ar ? elm.ultF ? 'animation: salida 2s ease-in-out ' : 'animation: rotate 2s ease-in-out;' : ' '"
+          :class="elm.ultF ? 'priF' : ' '">
+
       </div>
     </section>
     <section class="foot">
@@ -36,8 +41,11 @@ let arr: Ref<Array<nodo>> = ref([])
 arr.value.push({
   info: "1",
   no: false,
-  ar: false
+  ar: false,
+  ultN: false,
+  ultF: false
 })
+
 
 
 const handleClick = async () => {
@@ -51,13 +59,40 @@ const handleClick = async () => {
   arr.value.push({
     info: dato.value,
     no: false,
-    ar: false
+    ar: false,
+    ultN: true,
+    ultF: true
   })
   dato.value = " "
 
+  await nodoAnimationUlt(arr.value.length - 1)
+  await flechaAnimationUlt(arr.value.length - 1)
 
 
 
+}
+
+const flechaAnimationUlt = (index: number): Promise<boolean> => {
+  return new Promise((r, rej) => {
+    arr.value[index].ar = true
+    setTimeout(() => {
+      arr.value[index].ar = false
+      arr.value[index].ultF = false
+      r(false)
+    }, 1900);
+  })
+}
+
+
+const nodoAnimationUlt = (index: number): Promise<boolean> => {
+  return new Promise((r, rej) => {
+    arr.value[index].no = true
+    setTimeout(() => {
+      arr.value[index].no = false
+      arr.value[index].ultN = false
+      r(true)
+    }, 1900);
+  })
 }
 
 const nodoAnimation = (index: number): Promise<boolean> => {
@@ -147,6 +182,47 @@ header {
   100% {
     scale: 1;
   }
+}
+
+.priN {
+  opacity: 0;
+  scale: 0;
+}
+.priF {
+  opacity: 0;
+  scale: 1;
+  z-index: -1;
+}
+
+@keyframes prii {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    scale: 1.2;
+  }
+
+  100% {
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+@keyframes salida {
+  0% {
+    opacity: 1;
+    translate: (-100px);
+  }
+
+  50%{
+  }
+
+  100% {
+    translate: (px);
+    opacity: 1;
+  }
+
 }
 
 .fle {
