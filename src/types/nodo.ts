@@ -4,4 +4,6 @@ export interface nodo {
   ar: boolean
   ultN: boolean
   ultF: boolean
+  styleN: string
+  styleF: string
 }

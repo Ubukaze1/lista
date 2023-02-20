@@ -8,29 +8,28 @@
     <div class="hr"></div>
     <section class="nodos">
       <div class="fle" v-for="(elm, index) of arr" :key="index">
-        <div class="nodo"
-          :style="elm.no ? elm.ultN ? 'animation: prii 2s ease-in-out;' : 'animation: grow 2s ease-in-out' : ' '"
-          :class="elm.ultN ? 'priN' : ' '">
+        <div class="nodo" :style="elm.styleN" :class="elm.ultN ? 'priN' : ' '">
           <p>{{ elm.info }}</p>
         </div>
         <img src="../assets/flecha-correcta (1).png" alt="Flecha"
-          :style="elm.ar ? elm.ultF ? 'animation: salida 2s ease-in-out ' : 'animation: rotate 2s ease-in-out;' : ' '"
+          :style="elm.styleF"
           :class="elm.ultF ? 'priF' : ' '">
       </div>
     </section>
     <section class="foot">
       <div>
         <button class="bt-add" @click="handleClick()">Añadir</button>
+        <button class="bt-add" @click="handleClick1()">Añadir Primero</button>
         <input type="number" placeholder="Dato" v-model="dato" autofocus pattern="[0-9]*">
       </div>
     </section>
-</div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, Ref } from 'vue'
 import { nodo } from '../types/nodo'
-import {nodoAnimatio, flechaAnimation, flechaAnimationUlt, nodoAnimationUlt} from '../func/animations'
+import { nodoAnimatio, flechaAnimation, flechaAnimationUlt, nodoAnimationUlt, flechaMoverDerecha, nodoMoverDerecha } from '../func/animations'
 
 let dato: Ref<string> = ref("");
 let arr: Ref<Array<nodo>> = ref([])
@@ -40,15 +39,34 @@ arr.value.push({
   no: false,
   ar: false,
   ultN: false,
-  ultF: false
+  ultF: false,
+  styleN: " ",
+  styleF: " "
 })
 
+const handleClick1 = async () => {
+  console.log("Hola mundo")
+
+  await nodoMoverDerecha(arr)
+
+  arr.value.unshift({
+    info: dato.value,
+    no: false,
+    ar: false,
+    ultN: true,
+    ultF: true,
+    styleN: " ",
+    styleF: " "
+  })
+
+  await nodoAnimationUlt(0,arr)
+  await flechaAnimationUlt(0,arr)
+}
+
 const handleClick = async () => {
-
-
   for (let i = 0; i < arr.value.length; i++) {
-    await nodoAnimatio(i,arr)
-    await flechaAnimation(i, arr)
+    await nodoAnimatio(i, arr)
+  await flechaAnimation(i,arr)
   }
 
   arr.value.push({
@@ -56,9 +74,13 @@ const handleClick = async () => {
     no: false,
     ar: false,
     ultN: true,
-    ultF: true
+    ultF: true,
+    styleN: " ",
+    styleF: " "
   })
   dato.value = " "
+
+  
 
   await nodoAnimationUlt(arr.value.length - 1, arr)
   await flechaAnimationUlt(arr.value.length - 1, arr)
@@ -133,10 +155,41 @@ header {
   }
 }
 
+@keyframes moverDerechaNodo {
+  0% {
+    transform: translateX(0%);
+  }
+
+  70% {
+    transform: translateX(250%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+
+}
+
+@keyframes moverDerechaFlecha {
+  0% {
+    transform: translateX(0%);
+  }
+
+  70% {
+    transform: translateX(270%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+
+}
+
 .priN {
   opacity: 0;
   scale: 0;
 }
+
 .priF {
   opacity: 0;
   scale: 1;
@@ -164,8 +217,7 @@ header {
     translate: (-100px);
   }
 
-  50%{
-  }
+  50% {}
 
   100% {
     translate: (px);
