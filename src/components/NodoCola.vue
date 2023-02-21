@@ -2,7 +2,7 @@
   <div class="container">
     <!-- :style="elm.no ? ' animation: grow 2s ease-in-out;' : ' '" -->
     <header>
-      <h1>Pila</h1>
+      <h1>Cola</h1>
       <!-- <button>Cambio</button> -->
     </header>
     <div class="hr"></div>
@@ -18,8 +18,8 @@
     </section>
     <section class="foot">
       <div>
-        <button class="bt-add" @click="handleClick()">Añadir</button>
-        <!-- <button class="bt-add" @click="handleClick1()">Añadir Primero</button> -->
+        <!-- <button class="bt-add" @click="handleClick()">Añadir</button> -->
+        <button class="bt-add" @click="handleClick1()">Añadir</button>
         <input type="number" placeholder="Dato" v-model="dato" autofocus pattern="[0-9]*">
       </div>
     </section>
@@ -44,7 +44,7 @@ arr.value.push({
   styleF: " "
 })
 
-/* const handleClick1 = async () => {
+const handleClick1 = async () => {
   console.log("Hola mundo")
 
   await nodoMoverDerecha(arr)
@@ -61,9 +61,9 @@ arr.value.push({
 
   await nodoAnimationUlt(0,arr)
   await flechaAnimationUlt(0,arr)
-} */
+}
 
-const handleClick = async () => {
+/* const handleClick = async () => {
   for (let i = 0; i < arr.value.length; i++) {
     await nodoAnimatio(i, arr)
   await flechaAnimation(i,arr)
@@ -84,7 +84,7 @@ const handleClick = async () => {
 
   await nodoAnimationUlt(arr.value.length - 1, arr)
   await flechaAnimationUlt(arr.value.length - 1, arr)
-}
+} */
 </script>
 
 <style lang="scss">

@@ -63,7 +63,7 @@ const nodoMoverDerecha = (arr: Ref): Promise<boolean> => {
         arr.value[i].styleF = ' '
         r(false)
       }
-    }, (2 * arr.value.length) * 755);
+    }, 2 * 755);
 
 
   })
