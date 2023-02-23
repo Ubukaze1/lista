@@ -44,25 +44,6 @@ arr.value.push({
   styleF: " "
 })
 
-/* const handleClick1 = async () => {
-  console.log("Hola mundo")
-
-  await nodoMoverDerecha(arr)
-
-  arr.value.unshift({
-    info: dato.value,
-    no: false,
-    ar: false,
-    ultN: true,
-    ultF: true,
-    styleN: " ",
-    styleF: " "
-  })
-
-  await nodoAnimationUlt(0,arr)
-  await flechaAnimationUlt(0,arr)
-} */
-
 const handleClick = async () => {
   for (let i = 0; i < arr.value.length; i++) {
     await nodoAnimatio(i, arr)
@@ -102,7 +83,7 @@ header {
     -webkit-text-fill-color: transparent; */
     color: white;
     margin: 0;
-    margin-left: 42vw;
+    margin-left: 900px;
   }
 
   button {
